@@ -20,7 +20,11 @@ const App = () => {
 
     setScore((prev) => ({ ...prev, ...currentObj }))
   }
-  console.log(score)
+
+  function sendScores() {
+    socket.emit('scores', score)
+  }
+
   useEffect(() => {
     connectSocket()
   }, [])
@@ -40,6 +44,12 @@ const App = () => {
           handleInput={handleInput}
           placeholder='Enter your Score'
         />
+        <button
+          className='mt-[0.5rem] bg-black text-white px-5 py-2 rounded hover:bg-zinc-900 transition-all duration-300 ease-in-out'
+          onClick={sendScores}
+        >
+          Publish Score
+        </button>
       </div>
     </div>
   )
