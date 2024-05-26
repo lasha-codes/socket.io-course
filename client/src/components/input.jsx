@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-const Input = ({ placeholder }) => {
+const Input = ({ placeholder, handleInput, name }) => {
   return (
     <div>
       <input
-        className='h-[2.5rem] pl-[1rem] outline-none border w-[20rem] rounded'
+        name={name}
+        onChange={handleInput}
+        className='h-[2.5rem] pl-[1rem] bg-zinc-700 outline-none border w-[20rem] rounded'
         placeholder={placeholder}
       />
     </div>
