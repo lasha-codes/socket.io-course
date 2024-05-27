@@ -6,12 +6,11 @@ import Input from './components/input'
 
 const App = () => {
   const [score, setScore] = useState({})
+  const [allScores, setAllScores] = useState([])
   const socket = io('localhost:3000')
 
   function connectSocket() {
-    socket.on('connection', (socket) => {
-      console.log(socket)
-    })
+    socket.on('connection', (socket) => {})
   }
 
   function handleInput(event) {
@@ -23,11 +22,14 @@ const App = () => {
 
   function sendScores() {
     socket.emit('scores', score)
+    socket.on('playerScores', (scores) => {
+      setAllScores(scores)
+    })
   }
 
   useEffect(() => {
     connectSocket()
-  }, [])
+  }, [connectSocket])
   return (
     <div className='w-full h-screen flex items-center justify-center text-white bg-zinc-800'>
       <div className='flex flex-col items-center gap-4'>
@@ -50,6 +52,23 @@ const App = () => {
         >
           Publish Score
         </button>
+
+        <table className='w-full'>
+          <tbody>
+            <tr>
+              <th className='border border-white p-2'>Name</th>
+              <th className='border border-white p-2'>Score</th>
+            </tr>
+            {allScores.map((score, idx) => {
+              return (
+                <tr key={idx}>
+                  <td className='border border-white p-2'>{score?.name}</td>
+                  <td className='border border-white p-2'>{score?.score}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )
