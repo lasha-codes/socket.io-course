@@ -6,17 +6,12 @@ const io = new Server(httpServer, {
   cors: { origin: 'http://localhost:5173' },
 })
 
-let playerScores = []
+const crudData = []
 
 io.on('connection', (socket) => {
-  socket.on('scores', (scores) => {
-    playerScores.push({ ...scores, id: socket.id })
-    console.log(playerScores)
-
-    socket.emit('playerScores', playerScores)
-    setInterval(() => {
-      socket.emit('playerScores', playerScores)
-    }, 5000)
+  socket.on('data', (data) => {
+    crudData.push(data)
+    socket.emit('crudData', crudData)
   })
 })
 

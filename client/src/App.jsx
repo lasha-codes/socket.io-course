@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import io from 'socket.io-client'
 
 const App = () => {
   const [formInputs, setFormInputs] = useState({})
+  const [crudData, setCrudData] = useState([])
+  console.log(crudData)
+  const socket = io('localhost:3000')
   const handleInput = (event) => {
     const { name, value } = event.target
 
@@ -11,7 +15,11 @@ const App = () => {
   }
 
   const handleSubmit = () => {
-    console.log(formInputs)
+    socket.emit('data', formInputs)
+
+    socket.on('crudData', (data) => {
+      setCrudData(data)
+    })
   }
 
   return (
