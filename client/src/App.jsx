@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
 const App = () => {
@@ -17,10 +17,12 @@ const App = () => {
   const handleSubmit = () => {
     socket.emit('data', formInputs)
 
-    socket.on('crudData', (data) => {
-      setCrudData(data)
+    socket.on('crudData', (response) => {
+      setCrudData(response)
     })
   }
+
+  useEffect(() => {}, [])
 
   return (
     <div className='w-full h-screen flex items-center justify-center bg-zinc-800 text-white'>
@@ -52,6 +54,20 @@ const App = () => {
           >
             Add Data
           </button>
+        </div>
+        <div className='flex  items-center w-full gap-5'>
+          {crudData.map((data, idx) => (
+            <div
+              key={idx}
+              className='border p-5 rounded w-full flex flex-col items-start gap-3'
+            >
+              <h1 className='text-2xl font-medium border-b py-1'>
+                {data.name}
+              </h1>
+              <p className='border-b py-1'>{data.age}</p>
+              <p>{data.phone}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

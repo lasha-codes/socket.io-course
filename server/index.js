@@ -13,6 +13,10 @@ io.on('connection', (socket) => {
     crudData.push(data)
     socket.emit('crudData', crudData)
   })
+
+  setInterval(() => {
+    socket.emit('crudData', crudData)
+  }, 1000)
 })
 
 httpServer.listen(3000, () => {
